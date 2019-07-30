@@ -7,7 +7,7 @@ digraph {
     paxos[label="Paxos", shape=square]
     rpc[label="RPC", shape=square]
     swirlds[label="Swirlds", shape=square]
-    http[label="HTTP", shape=square]
+    tcp[label="TCP", shape=square]
     streaming[label="Streaming", shape=square]
     light[label="Light CLI client", shape=square]
     full[label="Full CLI client", shape=square]
@@ -39,7 +39,7 @@ digraph {
         labelloc="t";
         label="Transport repositories";
         rank=same;
-        rpc http streaming
+        rpc tcp streaming
     }
 
     subgraph cluster_interface {
@@ -52,9 +52,9 @@ digraph {
     }
 
     streaming -> common
-    http -> common
+    tcp -> common
     streaming -> trans_lib
-    http -> trans_lib
+    tcp -> trans_lib
     trans_lib -> common
     trans_lib  -> cons_lib
 
