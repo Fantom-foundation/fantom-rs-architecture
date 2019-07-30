@@ -1,0 +1,67 @@
+digraph {
+    graph [fontsize=10 fontname="Verdana" compound=true];
+    bgcolor=transparent;
+
+    lach[label="lachesis", shape=square]
+    raft[label="Raft", shape=square]
+    paxos[label="Paxos", shape=square]
+    rpc[label="RPC", shape=square]
+    swirlds[label="Swirlds", shape=square]
+    http[label="HTTP", shape=square]
+    streaming[label="Streaming", shape=square]
+    light[label="Light CLI client", shape=square]
+    full[label="Full CLI client", shape=square]
+    common[shape=square,fillcolor="white",style="filled"]
+    cons_lib[shape=square,label="consensus-lib",fillcolor="white",style="filled"]
+    trans_lib[shape=square,label="transport-lib",fillcolor="white",style="filled"]
+    cli_lib[shape=square,label="cli-lib",fillcolor="white",style="filled"]
+
+    lach -> common
+    cons_lib -> common
+    raft -> cons_lib
+    raft -> common
+    paxos -> common
+    paxos -> cons_lib
+    swirlds -> common
+    swirlds -> cons_lib
+
+    subgraph cluster_consensus {
+        bgcolor=white;
+        style="rounded"
+        labelloc="t";
+        label="Consensus repositories";
+        {rank=same lach raft paxos swirlds}
+    }
+
+    subgraph cluster_protocol {
+        bgcolor=white;
+        style="rounded"
+        labelloc="t";
+        label="Transport repositories";
+        rank=same;
+        rpc http streaming
+    }
+
+    subgraph cluster_interface {
+        bgcolor=white;
+        style="rounded"
+        labelloc="interface";
+        label="Interface repositories";
+        rank=same;
+        light full
+    }
+
+    streaming -> common
+    http -> common
+    streaming -> trans_lib
+    http -> trans_lib
+    trans_lib -> common
+    trans_lib  -> cons_lib
+
+    light -> common
+    full -> common
+    light -> cli_lib
+    full -> cli_lib
+    cli_lib -> common
+    cli_lib -> trans_lib
+}
